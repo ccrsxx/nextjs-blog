@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app';
-import '../styles/globals.css';
+import '../styles/global.css';
 
-export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+export default function App({ Component, pageProps }: AppProps): JSX.Element {
   return <Component {...pageProps} />;
 }

@@ -1,21 +1,55 @@
 import Head from 'next/head';
-import Link from 'next/link';
+import { Layout } from '../components';
+import { getSortedPostsData, PostsData } from '../lib';
 
-export default function Home(): JSX.Element {
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData();
+
+  return {
+    props: {
+      allPostsData
+    }
+  };
+}
+
+type HomeProps = {
+  allPostsData: PostsData;
+};
+
+export default function Home({ allPostsData }: HomeProps): JSX.Element {
   return (
-    <div className='flex min-h-screen justify-center items-center'>
+    <Layout home>
       <Head>
-        <title>Create Next App</title>
-        <link rel='icon' href='/favicon.ico' />
+        <title>Next.js Blog | Home</title>
       </Head>
-      <main>
-        <h1 className='text-primary text-xl'>
-          Read{' '}
-          <Link href='/posts/first-post'>
-            <a>this page</a>
-          </Link>
-        </h1>
-      </main>
-    </div>
+      <section className='text-2xl flex flex-col gap-4 text-center text-primary'>
+        <h2>
+          Hello, I’m <strong>ccrsxx</strong>. I’m a software engineer and an
+          anime fans. You can contact me on{' '}
+          <a href='https://twitter.com/ccrsxx' target='_blank' rel='noreferrer'>
+            Twitter
+          </a>
+          .
+        </h2>
+        <p>
+          This is a website I made for learning Next.js from the{' '}
+          <a href='https://nextjs.org/learn'>Next.js tutorial</a>.
+        </p>
+      </section>
+      <section>
+        <h2 className='font-bold text-2xl'>Blog</h2>
+        <ul className='text-xl'>
+          {allPostsData.map(({ id, date, title }) => (
+            <li key={id}>
+              {title}
+              <br />
+              {id}
+              <br />
+              {date}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </Layout>
   );
 }
