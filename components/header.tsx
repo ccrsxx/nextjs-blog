@@ -25,7 +25,7 @@ export function Header({ home }: HeaderProps) {
       ) : (
         <>
           <Link href='/'>
-            <a>
+            <a className='hover:brightness-75 transition'>
               <Image
                 priority
                 src='/images/profile.jpg'
@@ -38,7 +38,7 @@ export function Header({ home }: HeaderProps) {
           </Link>
           <h2 className='font-bold text-2xl'>
             <Link href='/'>
-              <a>{name}</a>
+              <a className='text-primary hover:text-link'>{name}</a>
             </Link>
           </h2>
         </>

@@ -7,11 +7,11 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
-const siteTitle = 'Next.js Blog';
+export const siteTitle = 'Next.js Blog';
 
 export function Layout({ home, children }: LayoutProps) {
   return (
-    <div className='max-w-xl px-4 mt-12 mx-auto flex flex-col gap-8'>
+    <div className='max-w-xl px-4 my-12 mx-auto flex flex-col gap-8'>
       <Head>
         <link rel='icon' href='/favicon.ico' />
         <meta
@@ -28,7 +28,9 @@ export function Layout({ home, children }: LayoutProps) {
         <meta name='twitter:card' content='summary_large_image' />
       </Head>
       <Header home={home} />
-      <main>{children}</main>
+      <main className={`${home ? 'gap-8' : 'gap-4'} flex flex-col`}>
+        {children}
+      </main>
       {!home && <BackHome />}
     </div>
   );

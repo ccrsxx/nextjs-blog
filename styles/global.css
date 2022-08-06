@@ -11,4 +11,8 @@
     @apply text-link hover:underline decoration-transparent underline-offset-2
            transition-colors hover:decoration-inherit;
   }
+
+  ul {
+    @apply list-disc ml-10;
+  }
 }
