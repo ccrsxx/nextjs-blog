@@ -10,3 +10,5 @@ Important note about the tutorial:
 - Top App is in the src/pages/\_app.tsx, you can declare state that persist between pages here. Also this a place to add global styles.
 - When a page is loaded by the browser, its JavaScript code runs and makes the page fully interactive. (This process is called hydration.)
 - In development mode, getStaticProps runs on each request instead.
+- Return value from getStaticProps is a json object, so that's not running in production. instead, it'll get fetched along with the generated html and javascript.
+
