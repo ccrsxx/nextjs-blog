@@ -23,7 +23,7 @@ export default function AnimeGirl({ id, url }: AnimeProps) {
 
   if (isFallback) return <Loading />;
 
-  const handleLoad = () => isFallback && setIsLoading(false);
+  const handleLoad = () => setIsLoading(false);
 
   const imageStyle = isLoading ? 'animate-pulse bg-white' : '';
 
@@ -59,8 +59,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { id } }: StaticProps) {
-  const res = await getAnimeGirl('sfw', id);
-  const { url } = await res.json();
+  const url = await getAnimeGirl('sfw', id);
 
   return {
     props: {

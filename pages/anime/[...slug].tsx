@@ -52,7 +52,7 @@ export async function getStaticProps({
   }
 }: StaticProps) {
   const id = `/${type}/${category}`;
-  const { url } = await getAnimeGirl(type, category);
+  const url = await getAnimeGirl(type, category);
 
   return {
     props: {

@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "",
     "lint": "next lint",
     "prepare": "husky install"
   },
@@ -27,8 +26,13 @@
     "eslint": "8.21.0",
     "eslint-config-next": "12.2.3",
     "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "postcss": "^8.4.14",
+    "prettier": "2.7.1",
     "tailwindcss": "^3.1.7",
     "typescript": "4.7.4"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }

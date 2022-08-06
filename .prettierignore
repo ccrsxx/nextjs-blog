@@ -1,0 +1,6 @@
+# Ignore artifacts:
+build
+coverage
+
+# ignore next.js build artifacts
+.next
