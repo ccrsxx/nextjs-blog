@@ -1,7 +1,8 @@
 import Head from 'next/head';
-import { Layout, Date } from '../../components';
-import { getAllPostsId, getPostData } from '../../lib';
-import type { PostContent, PostsPath, PostPath } from '../../lib';
+import { Layout } from '@components/layout';
+import { Date } from '@components/date';
+import { getAllPostsId, getPostData } from '@lib/posts';
+import type { PostContent, PostsPath, PostPath } from '@lib/posts';
 
 type PostProps = {
   postData: PostContent;

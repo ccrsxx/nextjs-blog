@@ -1,7 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { Layout, Date, siteTitle } from '../components';
-import { getSortedPostsData, PostsData } from '../lib';
+import { Layout } from '@components/layout';
+import { Date } from '@components/date';
+import { siteTitle } from '@components/layout';
+import { getSortedPostsData, PostsData } from '@lib/posts';
 
 type HomeProps = {
   allPostsData: PostsData;

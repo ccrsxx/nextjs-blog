@@ -1,6 +1,6 @@
 import NotFound from '../404';
-import { AnimePicture } from '../../components/anime-picture';
-import { getAnimeGirl } from '../../lib';
+import { AnimePicture } from '@components/anime-picture';
+import { getAnimeGirl } from '@lib/anime';
 
 type AnimeProps = {
   id: string;
