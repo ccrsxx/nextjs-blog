@@ -35,8 +35,6 @@ type PathPropsReturn = {
 export async function getStaticPaths(): Promise<PathPropsReturn> {
   const paths = getAllPostsId();
 
-  console.log('\nfrom static paths', paths);
-
   return {
     paths,
     fallback: false
@@ -53,8 +51,6 @@ export async function getStaticProps({
   params: { id }
 }: PostPath): Promise<StaticPropsReturn> {
   const postData = await getPostData(id);
-
-  console.log('\nfrom static props', { id, postData });
 
   return {
     props: {

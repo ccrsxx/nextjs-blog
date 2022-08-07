@@ -3,16 +3,6 @@ import Link from 'next/link';
 import { Layout, Date, siteTitle } from '../components';
 import { getSortedPostsData, PostsData } from '../lib';
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
-
-  return {
-    props: {
-      allPostsData
-    }
-  };
-}
-
 type HomeProps = {
   allPostsData: PostsData;
 };
@@ -54,4 +44,20 @@ export default function Home({ allPostsData }: HomeProps): JSX.Element {
       </section>
     </Layout>
   );
+}
+
+type StaticReturn = {
+  props: {
+    allPostsData: PostsData;
+  };
+};
+
+export async function getStaticProps(): Promise<StaticReturn> {
+  const allPostsData = getSortedPostsData();
+
+  return {
+    props: {
+      allPostsData
+    }
+  };
 }

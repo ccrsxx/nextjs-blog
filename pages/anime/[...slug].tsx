@@ -1,42 +1,38 @@
-import Image from 'next/image';
-import { useState } from 'react';
+import NotFound from '../404';
+import { AnimePicture } from '../../components/anime-picture';
 import { getAnimeGirl } from '../../lib';
 
-type AnimeGirlProps = {
+type AnimeProps = {
   id: string;
   url: string;
+  notFound: boolean;
 };
 
-export default function AnimeGirl({ id, url }: AnimeGirlProps) {
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handleLoad = () => isLoading && setIsLoading(false);
-
-  const imageStyle = isLoading ? 'animate-pulse bg-white' : '';
-
-  return (
-    <div className='flex flex-col items-center min-h-screen justify-center gap-8'>
-      <h1 className='text-2xl text-primary'>Anime girl at {id}</h1>
-      <Image
-        className={`${imageStyle} rounded`}
-        src={url}
-        alt='Random anime girl'
-        width={250}
-        height={250}
-        onLoad={handleLoad}
-      />
-    </div>
+export default function AnimeGirl({
+  id,
+  url,
+  notFound
+}: AnimeProps): JSX.Element {
+  return notFound ? (
+    <NotFound message={`${id} not found`} />
+  ) : (
+    <AnimePicture id={id} url={url} />
   );
 }
 
-export async function getStaticPaths() {
+type StaticPaths = {
+  paths: { params: { slug: string[] } }[];
+  fallback: boolean;
+};
+
+export async function getStaticPaths(): Promise<StaticPaths> {
   const paths = ['sfw', 'nsfw'].map((type) => ({
     params: { slug: [type, 'waifu'] }
   }));
 
   return {
     paths,
-    fallback: false
+    fallback: true
   };
 }
 
@@ -46,18 +42,23 @@ type StaticProps = {
   };
 };
 
+type StaticReturn = {
+  props: {
+    id: string;
+    url: string | null;
+    notFound: boolean;
+  };
+  revalidate: number;
+};
+
 export async function getStaticProps({
   params: {
     slug: [type, category]
   }
-}: StaticProps) {
+}: StaticProps): Promise<StaticReturn> {
   const id = `/${type}/${category}`;
+
   const url = await getAnimeGirl(type, category);
 
-  return {
-    props: {
-      id,
-      url
-    }
-  };
+  return { props: { id, url, notFound: url ? false : true }, revalidate: 10 };
 }

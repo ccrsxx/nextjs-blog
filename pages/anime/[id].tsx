@@ -1,44 +1,22 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
+import NotFound from '../404';
+import { AnimePicture } from '../../components/anime-picture';
 import { getAnimeGirl } from '../../lib';
 
 type AnimeProps = {
   id: string;
   url: string;
+  notFound: boolean;
 };
 
-function Loading() {
-  return (
-    <div className='flex min-h-screen justify-center items-center'>
-      <i className='text-4xl animate-spin'>🔃</i>
-    </div>
-  );
-}
-
-export default function AnimeGirl({ id, url }: AnimeProps) {
-  const [isLoading, setIsLoading] = useState(true);
-
-  const { isFallback } = useRouter();
-
-  if (isFallback) return <Loading />;
-
-  const handleLoad = () => setIsLoading(false);
-
-  const imageStyle = isLoading ? 'animate-pulse bg-white' : '';
-
-  return (
-    <div className='flex flex-col items-center min-h-screen justify-center gap-8'>
-      <h1 className='text-2xl text-primary'>Anime girl at /{id}</h1>
-      <Image
-        className={`${imageStyle} rounded`}
-        src={url}
-        alt='Random anime girl'
-        width={250}
-        height={250}
-        onLoad={handleLoad}
-      />
-    </div>
+export default function AnimeGirl({
+  id,
+  url,
+  notFound
+}: AnimeProps): JSX.Element {
+  return notFound ? (
+    <NotFound message={`${id} not found`} />
+  ) : (
+    <AnimePicture id={id} url={url} />
   );
 }
 
@@ -48,9 +26,13 @@ type StaticProps = {
   };
 };
 
-export async function getStaticPaths() {
-  const categories = ['waifu', 'neko', 'megumin'];
-  const paths = categories.map((category) => ({ params: { id: category } }));
+type StaticPaths = {
+  paths: { params: { id: string } }[];
+  fallback: boolean;
+};
+
+export async function getStaticPaths(): Promise<StaticPaths> {
+  const paths = [{ params: { id: 'waifu' } }];
 
   return {
     paths,
@@ -58,13 +40,18 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params: { id } }: StaticProps) {
-  const url = await getAnimeGirl('sfw', id);
-
-  return {
-    props: {
-      id,
-      url
-    }
+type StaticReturn = {
+  props: {
+    id: string;
+    url: string | null;
+    notFound: boolean;
   };
+  revalidate: number;
+};
+
+export async function getStaticProps({
+  params: { id }
+}: StaticProps): Promise<StaticReturn> {
+  const url = await getAnimeGirl('sfw', id);
+  return { props: { id, url, notFound: url ? false : true }, revalidate: 10 };
 }
