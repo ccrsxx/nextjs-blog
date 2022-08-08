@@ -32,7 +32,7 @@ export default function Home({ allPostsData }: HomeProps): JSX.Element {
           <Link href='/anime/sfw/waifu'>
             <a>page</a>
           </Link>{' '}
-          (SSG) on this website to get some cute anime girl.
+          (SSR) on this website to get some cute anime girl.
         </p>
       </section>
       <section className='flex flex-col gap-6'>
