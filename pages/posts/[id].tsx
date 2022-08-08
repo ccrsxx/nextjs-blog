@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { Layout } from '@components/layout';
 import { Date } from '@components/date';
 import { getAllPostsId, getPostData } from '@lib/posts';
@@ -11,11 +10,10 @@ type PostProps = {
 export default function Post({
   postData: { date, title, htmlContent }
 }: PostProps): JSX.Element {
+  const path = `/posts/${title}`;
+
   return (
-    <Layout>
-      <Head>
-        <title>{title}</title>
-      </Head>
+    <Layout title={title} description={title} url={path}>
       <article className='flex flex-col gap-4'>
         <h1 className='text-3xl font-bold'>{title}</h1>
         <Date dateString={date} />

@@ -5,18 +5,20 @@ import { getAnimeGirl } from '@lib/anime';
 type AnimeProps = {
   id: string;
   url: string;
+  nsfw: boolean;
   notFound: boolean;
 };
 
 export default function AnimeGirl({
   id,
   url,
+  nsfw,
   notFound
 }: AnimeProps): JSX.Element {
   return notFound ? (
     <NotFound message={`${id} not found`} />
   ) : (
-    <AnimePicture id={id} url={url} />
+    <AnimePicture id={id} url={url} nsfw={nsfw} />
   );
 }
 
@@ -47,18 +49,24 @@ type StaticReturn = {
     id: string;
     url: string | null;
     notFound: boolean;
+    nsfw: boolean;
   };
   revalidate: number;
 };
 
 export async function getStaticProps({
-  params: {
-    slug: [type, category]
-  }
+  params: { slug: id }
 }: StaticProps): Promise<StaticReturn> {
-  const id = `/${type}/${category}`;
-
+  const [type, category] = id;
   const url = await getAnimeGirl(type, category);
 
-  return { props: { id, url, notFound: url ? false : true }, revalidate: 10 };
+  return {
+    props: {
+      id: category,
+      url,
+      notFound: url ? false : true,
+      nsfw: type === 'nsfw' ? true : false
+    },
+    revalidate: 10
+  };
 }

@@ -1,8 +1,6 @@
-import Head from 'next/head';
 import Link from 'next/link';
 import { Layout } from '@components/layout';
 import { Date } from '@components/date';
-import { siteTitle } from '@components/layout';
 import { getSortedPostsData, PostsData } from '@lib/posts';
 
 type HomeProps = {
@@ -12,9 +10,6 @@ type HomeProps = {
 export default function Home({ allPostsData }: HomeProps): JSX.Element {
   return (
     <Layout home>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
       <section className='text-xl flex flex-col gap-4 text-primary'>
         <h2>
           Hello, I’m <strong>ccrsxx</strong>. I’m a software engineer and an
@@ -27,6 +22,10 @@ export default function Home({ allPostsData }: HomeProps): JSX.Element {
         <p>
           This is a website I made for learning Next.js from the{' '}
           <a href='https://nextjs.org/learn'>Next.js tutorial</a>.
+        </p>
+        <p>
+          Check this <Link href='/anime/waifu'>page</Link> on this website to
+          get some cute anime girl
         </p>
       </section>
       <section className='flex flex-col gap-6'>
