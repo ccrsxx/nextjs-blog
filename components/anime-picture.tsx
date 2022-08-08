@@ -16,7 +16,7 @@ export function AnimePicture({ id, url, nsfw }: AnimeGirlProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadImage = async () => {
+    const loadImage = () => {
       const img = new Image();
       img.src = url;
       img.onload = () => setIsLoading(false);
@@ -26,14 +26,7 @@ export function AnimePicture({ id, url, nsfw }: AnimeGirlProps): JSX.Element {
 
   useEffect(() => {
     setIsLoading(true);
-    setCategory('waifu');
-    setImage(url);
-  }, [url]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    setCategory(id);
-  }, [id]);
+  }, [image, category]);
 
   const { isFallback } = useRouter();
   const imageStyle = isFallback || isLoading ? 'animate-pulse' : '';
@@ -47,7 +40,7 @@ export function AnimePicture({ id, url, nsfw }: AnimeGirlProps): JSX.Element {
   const changeCategory = async ({
     target: { value }
   }: React.ChangeEvent<HTMLSelectElement>): Promise<void> => {
-    if (value === id) return;
+    if (value === category) return;
     setCategory(value);
     const newImage = await getAnimeGirl(nsfw ? 'nsfw' : 'sfw', value);
     setImage(newImage!);
@@ -78,12 +71,12 @@ export function AnimePicture({ id, url, nsfw }: AnimeGirlProps): JSX.Element {
           height={250}
         />
         <div
-          className='inner:px-3 inner:py-1 inner:rounded inner:transition
-                     inner:text-white hover:inner:brightness-125
-                     flex gap-4'
+          className='inner:p-2 inner:rounded inner:transition flex-wrap
+                     inner:text-white hover:inner:brightness-125 inner:text-center
+                     flex gap-4 inner:max-w-[120px] inner:w-full w-full justify-center'
         >
           <select
-            className='bg-gray-700 appearance-none'
+            className='bg-gray-700 appearance-none focus-visible:outline-none cursor-pointer'
             name='waifu'
             id='waifu'
             value={category}

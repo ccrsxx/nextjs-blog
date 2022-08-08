@@ -24,8 +24,15 @@ export default function Home({ allPostsData }: HomeProps): JSX.Element {
           <a href='https://nextjs.org/learn'>Next.js tutorial</a>.
         </p>
         <p>
-          Check this <Link href='/anime/waifu'>page</Link> on this website to
-          get some cute anime girl
+          Check this{' '}
+          <Link href='/anime/waifu'>
+            <a>page</a>
+          </Link>{' '}
+          (SSG) or this{' '}
+          <Link href='/anime/sfw/waifu'>
+            <a>page</a>
+          </Link>{' '}
+          (SSG) on this website to get some cute anime girl.
         </p>
       </section>
       <section className='flex flex-col gap-6'>

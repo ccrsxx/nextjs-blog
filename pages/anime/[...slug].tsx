@@ -18,46 +18,29 @@ export default function AnimeGirl({
   return notFound ? (
     <NotFound message={`${id} not found`} />
   ) : (
-    <AnimePicture id={id} url={url} nsfw={nsfw} />
+    <AnimePicture id={id} url={url} nsfw={nsfw} key={url} />
   );
 }
 
-type StaticPaths = {
-  paths: { params: { slug: string[] } }[];
-  fallback: boolean;
-};
-
-export async function getStaticPaths(): Promise<StaticPaths> {
-  const paths = ['sfw', 'nsfw'].map((type) => ({
-    params: { slug: [type, 'waifu'] }
-  }));
-
-  return {
-    paths,
-    fallback: true
-  };
-}
-
-type StaticProps = {
+type ServerSideProps = {
   params: {
     slug: ['sfw' | 'nsfw', string];
   };
 };
 
-type StaticReturn = {
+type ServerSideReturn = {
   props: {
     id: string;
     url: string | null;
     notFound: boolean;
     nsfw: boolean;
   };
-  revalidate: number;
 };
 
-export async function getStaticProps({
-  params: { slug: id }
-}: StaticProps): Promise<StaticReturn> {
-  const [type, category] = id;
+export async function getServerSideProps({
+  params: { slug }
+}: ServerSideProps): Promise<ServerSideReturn> {
+  const [type, category] = slug;
   const url = await getAnimeGirl(type, category);
 
   return {
@@ -66,7 +49,6 @@ export async function getStaticProps({
       url,
       notFound: url ? false : true,
       nsfw: type === 'nsfw' ? true : false
-    },
-    revalidate: 10
+    }
   };
 }
